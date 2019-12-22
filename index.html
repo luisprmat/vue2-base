@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="es">
+    <head>
+        <title>Curso Vue 2</title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+
+        <!-- Fontawesome -->
+        <link rel="stylesheet" href="css/all.min.css">
+
+        <!-- Custom styles -->
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body>
+        <div id="app" class="container">
+            <h2>Tareas</h2>
+
+            <ul class="list-group tasks">
+                <li is="app-task" v-for="(task, index) in tasks" 
+                :task="task" :index="index" :key="task.id" @remove="deleteTask"></li>
+            </ul>
+
+            <p><a @click.prevent="deleteCompleted" href="#" class="btn btn-light">Eliminar tareas completadas</a></p>
+
+            <form @submit.prevent="createTask" class="new-task-form" action="#">
+                <input v-model="new_task" type="text" class="form-control">
+                <button type="submit" class="btn btn-primary">Crear tarea</button>
+            </form>
+            
+            <!-- <pre class="code pre-scrollable">{{ $data }}</pre> -->
+
+            <footer class="footer">
+                <p>&copy; 2019. {{ name }}. Derechos reservados</p>
+            </footer>
+        </div>
+        
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="js/jquery-3.3.1.slim.min.js"></script>
+        <script src="js/popper.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/vue.js"></script>
+
+        <script type="text/x-template" id="task-template">
+            <li class="list-group-item"
+                :class="{editing: editing, completed: !task.pending}">
+                <a @click="toggleStatus" href="#">
+                    <app-icon :img="task.pending ? 'unchecked' : 'check'"></app-icon>
+                </a>
+
+                <template v-if="!editing">
+                    <span  class="description">{{ task.description }}</span>
+                    <div>
+                        <a @click="edit" href="#">
+                            <app-icon img="edit"></app-icon>
+                        </a>
+                        <a @click="remove" href="#">
+                            <app-icon img="trash"></app-icon>
+                        </a>
+                    </div>
+                </template>
+                    
+                <template v-else>
+                    <input type="text" v-model="draft">
+                    <div>
+                        <a @click="update" href="#">
+                            <app-icon img="ok"></app-icon>
+                        </a>
+                        <a @click="discard" href="#">
+                            <app-icon img="remove"></app-icon>
+                        </a>
+                    </div>
+                </template>
+            </li>
+        </script>
+
+        <script src="js/app.js"></script>
+
+    </body>
+</html>
